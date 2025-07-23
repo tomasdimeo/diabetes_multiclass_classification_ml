@@ -17,6 +17,7 @@ This repository contains an exploratory data analysis and the implementation of 
     * [Resampling Techniques](#resampling-techniques)
     * [Implemented Models](#implemented-models)
     * [Evaluation Metrics](#evaluation-metrics)
+* [EDA](#eda)
 * [Results](#results)
 * [Installation and Usage](#installation-and-usage)
 * [Technologies Used](#technologies-used)
@@ -26,11 +27,19 @@ This repository contains an exploratory data analysis and the implementation of 
 
 ## Project Context
 
-The dataset used in this project is derived from a large-scale health survey, likely a version of the **Behavioral Risk Factor Surveillance System (BRFSS)**. It contains over 200,000 records and 22 features for each participant. These features include health indicators (e.g., high cholesterol, high blood pressure), lifestyle habits (e.g., smoking, physical activity), and demographic data (e.g., age, sex).
+Diabetes is one of the most common chronic diseases in the United States, affecting millions of people and creating a massive economic burden. It occurs when the body cannot properly regulate blood glucose due to insufficient insulin production or ineffective use of insulin. This can lead to severe complications such as heart disease, vision loss, limb amputations, and kidney damage.
+
+Although there is no cure, losing weight, eating healthily, staying active, and receiving medical treatments can help reduce the impact of the disease. Early diagnosis and predictive risk models are crucial for encouraging lifestyle changes and timely treatment.
+
+According to the CDC, as of 2018, 34.2 million Americans had diabetes and 88 million had prediabetes, with many unaware of their condition. Type II diabetes is the most common form, and its prevalence varies by age, education, income, location, race, and other social factors, disproportionately affecting people with lower socioeconomic status. The economic impact is huge, with annual costs reaching around $400 billion when including undiagnosed diabetes and prediabetes.
+
+The Behavioral Risk Factor Surveillance System (BRFSS) is a health-related telephone survey that is collected annually by the CDC. Each year, the survey collects responses from over 400,000 Americans on health-related risk behaviors, chronic health conditions, and the use of preventative services. It has been conducted every year since 1984. For this project, a csv of the dataset available on Kaggle for the year 2015 was used. This original dataset contains responses from 441,455 individuals and has 330 features. These features are either questions directly asked of participants, or calculated variables based on individual participant responses.
+
+Find more: [Behavioral Risk Factor Surveillance System](https://www.kaggle.com/datasets/cdc/behavioral-risk-factor-surveillance-system)
 
 The target variable we aim to predict is a column indicating the respondent's diabetes status, which is divided into three classes:
 
-*   `0`: **No Diabetes**
+*   `0`: **No Diabetes (or only had it during pregnancy)**
 *   `1`: **Prediabetes**
 *   `2`: **Diabetes**
 
@@ -45,21 +54,18 @@ The main objectives of this project are:
 *   **Compare the performance** of the models using metrics suitable for a multi-class and imbalanced classification problem.
 *   **Identify the most effective model** for this prediction task.
 
+It is important to clarify that although the main objectives are those previously mentioned, I will specifically focus on resampling techniques to deal with class imbalance and metrics to be considered for multi-class classification.
+
 ## Repository Structure
 
 The repository is organized as follows to ensure clarity and reproducibility:
 
 ```
-├── data/
-│   └── diabetes_health_indicators.csv  # Main dataset
+├── diabetes_012_health_indicators_BRFSS2015.csv  # Main dataset
 │
-├── notebooks/
-│   ├── 01_EDA_and_Preprocessing.ipynb  # Exploratory data analysis and data cleaning
-│   └── 02_Modeling_and_Evaluation.ipynb  # Model training and evaluation
-│
-├── src/
-│   ├── utils.py                        # Helper functions (e.g., for plotting or evaluation)
-│   └── model_pipeline.py               # Scripts for the training pipeline (optional)
+├── notebook/
+│   ├── EDA.ipynb  # Only the exploratory data analysis
+│   └── diabetes_012_ml.ipynb  # Model training and evaluation
 │
 ├── models/
 │   ├── random_forest_model.pkl         # Saved trained model
@@ -85,17 +91,16 @@ In this phase, the dataset was explored to understand the distribution of variab
 
 Before training the models, the data was processed through the following steps:
 *   **Data Cleaning**: Handling missing values (if any) and correcting data types.
-*   **Categorical Variable Encoding**: Categorical features were converted into a numerical format using techniques like One-Hot Encoding.
-*   **Feature Scaling**: Numerical features were scaled (e.g., using `StandardScaler`) to ensure that models sensitive to feature scales would perform correctly and to aid the convergence of others.
-*   **Data Splitting**: The dataset was split into training (80%) and testing (20%) sets in a stratified manner to maintain the original class proportions in both sets.
+*   **Categorical Variable Encoding**: There was no need to perform since the dataset we used had been previously processed. Only the target variable was adjusted to be able to process it in the models.
+*   **Data Splitting**: The dataset was split into training (60%), validation (20%) and testing (20%) sets in a stratified manner to maintain the original class proportions in both sets.
 
 ### 3. Modeling and Training
 
-This is the core phase of the project, where classification models were trained and evaluated.
+This is the core phase of the project, where classification models were trained and evaluated. The models were trained pre and post resampling to see how they performed.
 
 #### Resampling Techniques
 
-Due to the significant class imbalance, resampling techniques were applied **only to the training set** to prevent data leakage. The primary technique used was **SMOTE (Synthetic Minority Over-sampling Technique)**, which creates synthetic samples of the minority classes (prediabetes and diabetes) to balance the training dataset.
+Due to the significant class imbalance, resampling techniques were applied **only to the training set** to prevent data leakage. The techniques used were variants of **SMOTE (Synthetic Minority Over-sampling Technique)**, such as SMOTE-Tomek, SMOTE-ENN, Borderline-SMOTE and also ADASYN which, although not a technique like SMOTE, is good for handling class imbalance. These resampling techniques deal with class minorities in different ways that I will be explaining later.
 
 #### Implemented Models
 
@@ -112,7 +117,13 @@ Since accuracy is not a reliable metric for imbalanced problems, a more comprehe
 *   **Confusion Matrix**: To visualize the classification performance, including correct and incorrect predictions for each of the three classes.
 *   **Precision, Recall, and F1-Score**: The F1-Score was calculated using both a `weighted avg` and a `macro avg`. The weighted average accounts for class imbalance, while the macro average gives equal importance to each class, which is useful for assessing performance on minority classes.
 *   **Classification Report**: A comprehensive summary from Scikit-learn that includes Precision, Recall, and F1-Score per class.
-*   **ROC AUC Score**: For this multi-class problem, the One-vs-Rest (OvR) strategy was used to calculate the area under the ROC curve.
+*   **AUC-PR Score**: For this multi-class problem, the One-vs-Rest (OvR) strategy was used to calculate the area under the AUC-PR curve.
+
+---
+
+## EDA
+
+
 
 ---
 
