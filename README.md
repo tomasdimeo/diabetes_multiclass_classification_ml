@@ -213,9 +213,9 @@ Comparing body mass index with age groups and segmenting them by diabetes status
 
 It is important to note that the dataset used was previously cleaned by a user of Kaggle, if you want to find the raw dataset you can find it here [Behavioral Risk Factor Surveillance System](https://www.kaggle.com/datasets/cdc/behavioral-risk-factor-surveillance-system).
 
-The first thing we did was to load the dataset and look at its composition to check if it was indeed previously cleaned. You can see that there are 253680 rows and 22 columns (including the target variable).
+The first thing we did was to load the dataset and look at its composition to check if it was indeed previously cleaned. You can see that there are 253,680 rows and 22 columns (including the target variable).
 
-We notice that there are 23899 duplicate rows. While this is a high number of duplicate data, the raw dataset contained about 500,000 rows so in this case we are going to assume that it is just a coincidence as we are not certain that these duplicate rows are an error.
+We notice that there are 23,899 duplicate rows. While this is a high number of duplicate data, the raw dataset contained about 500,000 rows so in this case we are going to assume that it is just a coincidence as we are not certain that these duplicate rows are an error.
 
 After having done the EDA to understand a bit more about our dataset, we proceed to perform the data separation by creating 3 new datasets corresponding to the training, validation and test of the models.
 
@@ -303,6 +303,32 @@ While effective, applying SMOTE directly can be problematic, especially on very 
 * Computational Cost: Finding the k-nearest neighbors for every minority sample in a dataset with millions of rows is computationally intensive and can drastically slow down the training pipeline.
 * Indiscriminate Synthesis: It generates the same number of synthetic samples for every minority point, regardless of whether that point is in a "safe" region or a "difficult" one on the border with another class.
 
+These limitations led to the development of more refined hybrid and adaptive techniques.
+
+#### SMOTE + Undersampling (Tomek Links and Edited Nearest Neighbors)
+
+To address the noise issue, SMOTE is often combined with undersampling techniques that "clean" the data after over-sampling. These methods remove samples that are likely to be noise or that clutter the decision boundary.
+
+A **Tomek Link** exists between two samples of different classes if they are each other's nearest neighbor. These links often highlight noisy or borderline instances. After applying SMOTE to generate new minority samples, the Tomek Links algorithm is used to identify these pairs. The sample from the majority class in each link is then removed. This helps to clean the space between classes, creating a clearer decision boundary.
+
+**Edited Nearest Neighbors (ENN)** is a more aggressive cleaning method. It looks at the k-nearest neighbors for each sample. If a sample's class label does not agree with the majority of its neighbors, that sample is removed. When combined with SMOTE, ENN removes both majority and synthetic minority samples that are deemed to be misclassified by their local neighborhood. This results in a much "cleaner" dataset, though at the risk of removing useful information.
+
+#### Borderline-SMOTE
+
+Instead of cleaning after the fact, **Borderline-SMOTE** improves the synthesis process itself. It recognizes that not all minority samples are equally important. The ones on the "border" of a class are most critical for defining the decision boundary.
+
+It first identifies all minority samples that are "on the border" (i.e., where a significant number of their neighbors belong to a majority class). It then applies the SMOTE algorithm only to these borderline samples.
+
+This focuses the synthetic data generation where it is most needed, strengthening the decision boundary without adding potentially unhelpful samples deep within the minority class region.
+
+#### ADASYN
+
+**ADASYN (Adaptive Synthetic Sampling)** takes the concept a step further. Like Borderline-SMOTE, it focuses on the "harder" samples, but it does so in an adaptive manner.
+
+It calculates a ratio for each minority sample, representing the proportion of majority class samples in its neighborhood. This ratio serves as a measure of how "difficult" that sample is to learn. It then generates a weighted number of synthetic samples for each minority point: more synthetic data is generated for the minority samples that are harder to learn (i.e., those with a higher proportion of majority neighbors).
+
+The key difference from SMOTE is that ADASYN adaptively shifts the decision boundary to focus on difficult-to-classify examples, making it a very powerful technique for highly imbalanced and complex datasets.
+
 ---
 
 ## Results
@@ -322,6 +348,10 @@ The models were evaluated on the test set (which was not seen during training or
 | CatBoost (ADASYN)| 0.82               | 0.44             | 0.86            |
 
 **Conclusion**: The **CatBoost** model with SMOTE-Tomek resampling demonstrated the best overall performance, achieving the highest F1-Score (Weighted and Macro) and Weighted AUC-PR Curve. Although the accuracy of the model in predicting the majority class is above 90%, it fails to predict class 1 (2% of the dataset) and although resampling and feature importance techniques help to improve the prediction of class 2 (14% of the dataset), it is still far from what could be considered useful.
+
+The imbalance of class 1 (pre-diabetes) is too large (42x less data), which is why even implementing different resampling techniques does not make a substantial difference. By applying weights to models, they begin to predict the minority class at the cost of greatly diminishing the effectiveness of predicting the majority class.
+
+Another way to approach the problem is to divide the target variable into class 0 (diabetes) and class 1 (prediabetes + diabetes). A model could then be built to predict between the pre-diabetes and diabetes classes.
 
 ---
 
