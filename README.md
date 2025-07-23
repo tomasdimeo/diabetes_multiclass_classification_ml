@@ -65,6 +65,8 @@ The repository is organized as follows to ensure clarity and reproducibility:
 ```
 ├── diabetes_012_health_indicators_BRFSS2015.csv  # Main dataset
 │
+├── images/ # README.md images
+│   
 ├── notebook/
 │   ├── EDA.ipynb  # Only the exploratory data analysis
 │   └── diabetes_012_ml.ipynb  # Model training and evaluation
