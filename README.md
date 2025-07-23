@@ -18,6 +18,8 @@ This repository contains an exploratory data analysis and the implementation of 
     * [Implemented Models](#implemented-models)
     * [Evaluation Metrics](#evaluation-metrics)
 * [EDA](#eda)
+* [Data Preprocessing and Preparation](#data-preprocessing-and-preparation)
+* [Modeling and Training](#modeling-and-training)
 * [Results](#results)
 * [Installation and Usage](#installation-and-usage)
 * [Technologies Used](#technologies-used)
@@ -188,6 +190,76 @@ The same as above can be seen in the variables of physical activity and vegetabl
 Comparing body mass index with age groups and segmenting them by diabetes status it can be deduced that middle-aged groups have higher body mass while older groups have lower body mass but still have a higher proportion of diabetic participants.
 
 ![BMI vs Age by Diabetes Status](images/bmi_vs_age_by_diabetes_status.png)
+
+---
+
+## Data Preprocessing and Preparation
+
+It is important to note that the dataset used was previously cleaned by a user of Kaggle, if you want to find the raw dataset you can find it here [Behavioral Risk Factor Surveillance System](https://www.kaggle.com/datasets/cdc/behavioral-risk-factor-surveillance-system).
+
+The first thing we did was to load the dataset and look at its composition to check if it was indeed previously cleaned. You can see that there are 253680 rows and 22 columns (including the target variable).
+
+We notice that there are 23899 duplicate rows. While this is a high number of duplicate data, the raw dataset contained about 500,000 rows so in this case we are going to assume that it is just a coincidence as we are not certain that these duplicate rows are an error.
+
+After having done the EDA to understand a bit more about our dataset, we proceed to perform the data separation by creating 3 new datasets corresponding to the training, validation and test of the models.
+
+---
+
+## Modeling and Training
+
+When faced with a tabular dataset for a multiclass classification problem, the path to a robust model can seem daunting.
+
+### Models
+
+#### Decision Tree
+
+Starting with a single **Decision Tree** is an excellent strategy for establishing a baseline model. It's the fundamental building block for all the more complex models that follow.
+
+Unlike models such as SVMs or Logistic Regression, decision trees do not require feature scaling (e.g., standardization or normalization). They are also robust to outliers. They can inherently capture non-linear relationships between features and the target variable without requiring manual transformations like polynomial features.
+
+However, their main drawback is a high tendency to overfit the training data. A single tree can grow very deep, memorizing the noise in the data rather than learning the general signal. Through the search and selection of hyperparameters we try to find models that can make better predictions, always taking into account not to fall into overfitting.
+
+#### Random Forest
+
+**Random Forest** is an ensemble method that directly addresses the overfitting problem of single Decision Trees. It does so by combining the wisdom of many "weaker" trees into a single, robust model.
+
+It creates multiple random subsamples of the training data (with replacement). A separate Decision Tree is trained on each subsample. At each split in a tree, only a random subset of features is considered. This prevents strong predictors from dominating all the trees, leading to more diverse and decorrelated models.
+
+Between the key advantages of RF models we can highlight the reduction of the variance model by averaging the predictions. Another important advantage is the improved accuracy (almost always outperforms a single Decision Tree). We can also tune a larger number of hyperparameters.
+
+#### XGBoost 
+
+While Random Forest builds trees independently and in parallel, Gradient Boosting models like **XGBoost (Extreme Gradient Boosting)** build them sequentially. Each new tree is trained to correct the errors made by the previous ones. It is an optimized and highly efficient implementation of the Gradient Boosting algorithm.
+
+It often delivers state-of-the-art results on tabular data by focusing on the "hard-to-classify" examples. It also includes L1 (Lasso) and L2 (Ridge) regularization terms in its objective function, which helps control model complexity and prevent overfitting. It is optimized for performance, with features like parallelized tree building and cache-aware access and has built-in capabilities to handle missing values.
+
+#### LightGBM and CatBoost
+
+As datasets grow larger (like ours), even XGBoost can become computationally expensive. LightGBM and CatBoost are modern gradient boosting frameworks designed to be faster and more efficient, each with its unique strengths.
+
+**LightGBM (Light Gradient Boosting Machine)**, developed by Microsoft, prioritizes training speed and efficiency. It uses a leaf-wise tree growth strategy instead of the traditional level-wise growth of XGBoost. This means it grows the tree where it will result in the largest reduction in loss, making it much faster and more memory-efficient. This type of models are the best for scenarios where training speed is critical, especially with very large datasets (millions of rows).
+
+**CatBoost (Categorical Boosting)**, developed by Yandex, excels at handling categorical data automatically and effectively. It's standout feature is its sophisticated, built-in handling of categorical features. It uses an algorithm based on ordered boosting and target statistics to encode categorical variables without the risk of target leakage, a common problem with traditional encoding methods. This type of models are the best for datasets with many categorical features (e.g., user IDs, product categories). It often delivers excellent results with minimal hyperparameter tuning, making it very user-friendly.
+
+### Class Imbalance
+
+In our dataset we face a significant challenge of class imbalance, where the classes 1 and 2 have far fewer samples (minority classes) than the class 0 (majority class). If left unaddressed, most machine learning models will become biased towards the majority class, achieving high accuracy simply by ignoring the rare, often more critical, minority classes.
+
+Resampling techniques are designed to mitigate this by balancing the class distribution in the training data. We will be exploring a progression from the foundational SMOTE to more sophisticated adaptive methods.
+
+**It is important to note that these resampling techniques should only be applied to the training dataset and not to the validation and test datasets, as this would adulterate the entire dataset and the results we would obtain would be incorrect and biased.**
+
+I highlight this because I have seen numerous works and resolutions on this dataset where they apply resampling before splitting the dataset, and therefore, creating ‘very good’ models that end up being useless in reality.
+
+#### SMOTE
+
+**SMOTE** is the most widely known and used over-sampling technique. Instead of simply duplicating existing minority samples (which adds no new information), SMOTE creates new, synthetic samples. It selects a minority class sample at random and it finds its k-nearest neighbors from the same minority class. It randomly chooses one of these neighbors and it generates a new synthetic sample at a random point along the line segment connecting the original sample and its chosen neighbor.
+
+While effective, applying SMOTE directly can be problematic, especially on very large datasets:
+
+* Noise Generation: SMOTE does not consider the position of majority class samples. If a minority sample is an outlier or located in a noisy area, SMOTE can generate synthetic samples "in the wrong place" blurring the natural decision boundary between classes and potentially making the classification task even harder.
+* Computational Cost: Finding the k-nearest neighbors for every minority sample in a dataset with millions of rows is computationally intensive and can drastically slow down the training pipeline.
+* Indiscriminate Synthesis: It generates the same number of synthetic samples for every minority point, regardless of whether that point is in a "safe" region or a "difficult" one on the border with another class.
 
 ---
 
