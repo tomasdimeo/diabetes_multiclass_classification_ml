@@ -123,7 +123,71 @@ Since accuracy is not a reliable metric for imbalanced problems, a more comprehe
 
 ## EDA
 
+### Target Variable Distribution
 
+We can observe that 84% of our participants do not have diabetes (or only had it during pregnancy), 14% have diabetes and almost 2% have prediabetes. The dataset has a case of imbalance that we need to consider when applying the models.
+
+![Diabetes Status Countplot](images/diabetes_status_cp.png)
+
+### Univariate Analysis
+
+56% of the participants are females while the other 44% are males.
+
+![Sex Countplot](images/sex_cp.png)
+
+The proportion of diabetes status is similar in both females and males.
+
+![Diabetes Status by Sex](images/diabetes_status_by_sex_cp.png)
+
+Almost 58% of the participants have low-normal high cholesterol level.
+
+![Cholesterol Countplot](images/cholesterol_cp.png)
+
+8% of participants without high cholesterol have diabetes while 22% of participants with high cholesterol level have diabetes. This appears to be an important factor.
+
+![Diabetes Status by Cholesterol](images/diabetes_status_by_cholesterol.png)
+
+Tha majority of participants are no smokers.
+
+![Smokers Countplot](images/smokers_cp.png)
+
+If we look at how this variable behaves in terms of diabetes status we can see that 12% of non-smokers have diabetes while 16% of smokers have diabetes. This could be considered an important variable although not as important as others. This could be more related to the habits of the participant.
+
+![Diabetes Status by Smokers](images/diabetes_status_by_smokers.png)
+
+In terms of age groups, among the participants the age groups between 50 and 74 years dominate.
+
+![Age Group Distribution](images/age_distribution.png)
+
+If we analyse the diabetes status by age group we can see that as the age group increases the proportion of participants with diabetes increases, which is to be expected. Those with the highest proportion of diabetic participants are the participants between 70 and 80 years of age.
+
+![Diabetes Status by Age](images/diabetes_status_by_age.png)
+
+Analysing the distribution of the variable BMI (body mass index) we notice that it is higher for those with diabetes or pre-diabetes, so we are talking about another important factor.
+
+![BMI by Diabetes Status Boxplot](images/bmi_by_diabetes_status.png)
+![BMI by Diabetes Status Violinplot](images/bmi_by_diabetes_status_vp.png)
+
+### Correlation Analysis
+
+From the correlation matrix it can be seen that there is a positive relationship between diabetes status and the variables general health, physical activity and walking difficulties. This makes sense and shows that these are variables that could become important when developing a prediction model.
+
+![Correlation Matrix](images/correlation_matrix.png)
+
+### Relationship with Target Variable
+
+In the case of how participants perceived general health there is a clear trend showing that those who perceive better health do not have diabetes while those who perceive poor health tend to have pre-diabetes or diabetes.
+
+![Perception of General Health by Diabetes Status](images/perception_genhlth_by_diabetes_status.png)
+
+The same as above can be seen in the variables of physical activity and vegetables/fruits (participants who include these products in their diet). 
+
+![Physical Activity by Diabetes Status](images/physical_activity_by_diabetes_status.png)
+![Veggies by Diabetes Status](images/veggies_by_diabetes_status.png)
+
+Comparing body mass index with age groups and segmenting them by diabetes status it can be deduced that middle-aged groups have higher body mass while older groups have lower body mass but still have a higher proportion of diabetic participants.
+
+![BMI vs Age by Diabetes Status](images/bmi_vs_age_by_diabetes_status.png)
 
 ---
 
@@ -143,7 +207,7 @@ The models were evaluated on the test set (which was not seen during training or
 | CatBoost (Borderline-SMOTE)| 0.82     | 0.44             | 0.86            |
 | CatBoost (ADASYN)| 0.82               | 0.44             | 0.86            |
 
-**Conclusion**: The **CatBoost (SMOTE-Tomek)** model demonstrated the best overall performance, achieving the highest F1-Score (Weighted and Macro) and Weighted AUC-PR Curve. Although the accuracy of the model in predicting the majority class is above 90%, it fails to predict class 1 (2% of the dataset) and although resampling and feature importance techniques help to improve the prediction of class 2 (14% of the dataset), it is still far from what could be considered useful.
+**Conclusion**: The **CatBoost** model with SMOTE-Tomek resampling demonstrated the best overall performance, achieving the highest F1-Score (Weighted and Macro) and Weighted AUC-PR Curve. Although the accuracy of the model in predicting the majority class is above 90%, it fails to predict class 1 (2% of the dataset) and although resampling and feature importance techniques help to improve the prediction of class 2 (14% of the dataset), it is still far from what could be considered useful.
 
 ---
 
