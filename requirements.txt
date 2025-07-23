@@ -1,0 +1,32 @@
+# requirements.txt
+
+# --- Core Data Science & Numerical Libraries ---
+# For data manipulation and analysis
+pandas
+numpy
+
+# --- Data Visualization ---
+# For plotting and statistical graphics
+matplotlib
+seaborn
+
+# --- Machine Learning & Preprocessing ---
+# For modeling, preprocessing, and evaluation
+scikit-learn
+# For handling imbalanced datasets
+imbalanced-learn
+
+# --- Gradient Boosting Models ---
+# High-performance gradient boosting frameworks
+xgboost
+lightgbm
+catboost
+
+# --- Utilities ---
+# For creating progress bars
+tqdm
+
+# --- Development Environment ---
+# For interactive code development (optional for deployment, but essential for the project)
+notebook
+jupyterlab
