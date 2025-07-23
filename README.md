@@ -161,6 +161,22 @@ In terms of age groups, among the participants the age groups between 50 and 74 
 
 ![Age Group Distribution](images/age_distribution.png)
 
+| Age Group | Range (Age) |
+|-----------|-------------|
+| 1         | 18-24       |
+| 2         | 25-29       |
+| 3         | 30-34       |
+| 4         | 35-39       |
+| 5         | 40-44       |
+| 6         | 45-49       |
+| 7         | 50-54       |
+| 8         | 55-59       |
+| 9         | 60-64       |
+| 10        | 65-69       |
+| 11        | 70-74       |
+| 12        | 75-79       |
+| 13        | +80         |
+
 If we analyse the diabetes status by age group we can see that as the age group increases the proportion of participants with diabetes increases, which is to be expected. Those with the highest proportion of diabetic participants are the participants between 70 and 80 years of age.
 
 ![Diabetes Status by Age](images/diabetes_status_by_age.png)
@@ -202,6 +218,32 @@ The first thing we did was to load the dataset and look at its composition to ch
 We notice that there are 23899 duplicate rows. While this is a high number of duplicate data, the raw dataset contained about 500,000 rows so in this case we are going to assume that it is just a coincidence as we are not certain that these duplicate rows are an error.
 
 After having done the EDA to understand a bit more about our dataset, we proceed to perform the data separation by creating 3 new datasets corresponding to the training, validation and test of the models.
+
+### Variables
+
+| Variable | Description|
+|----------|------------|
+| ```diabetes_012``` | Diabetes Status (0: No Diabetes, 1: Prediabetes, 2: Diabetes) [Target]|
+|```highbp``` | High Blood Pressure (0: No, 1: Yes)|
+|```highchol``` | High Cholesterol (0: No, 1: Yes)|
+|```cholchek``` | Cholesterol check in the last 5 years (0: No, 1: Yes)|
+|```bmi``` | Body Mass Index|
+|```smoker``` | Have you smoked at least 100 cigarettes in your entire life? (0: No, 1: Yes)|
+|```heartdiseaseorattack``` | Coronary Heart Disease (CHD) or Myocardial Infarction (MI) (0: No, 1: Yes)|
+|```physactivity``` | Physical Activity in past 30 days - not including job (0: No, 1: Yes)|
+|```fruits``` | Consume Fruit 1 or more times per day (0: No, 1: Yes)|
+|```veggies``` | Consume Vegetables 1 or more times per day (0: No, 1: Yes)|
+|```hvyalcoholconsump``` | Heavy drinkers (adult men having more than 14 drinks per week and adult women having more than 7 drinks per week) (0: No, 1: Yes)|
+|```anyhealthcare``` | Have any kind of health care coverage, including health insurance, prepaid plans such as HMO, etc. (0: No, 1: Yes)|
+|```nodocbccost``` | Was there a time in the past 12 months when you needed to see a doctor but could not because of cost? (0: No, 1: Yes)|
+|```genhlth``` | Would you say that in general your health is: scale 1-5 1 = excellent 2 = very good 3 = good 4 = fair 5 = poor|
+|```menhlth``` | Now thinking about your mental health, , which includes stress, depression, and problems with emotions, for how many days during the past 30 days was your mental health not good? (1-30) |
+|```physhlth``` | Now thinking about your physical health, which includes physical illness and injury, for how many days during the past 30 days was your physical health not good? (1-30)|
+|```diffwalk``` | Do you have serious difficulty walking or climbing stairs? (0: No, 1: Yes)|
+|```sex``` | 0: Female, 1: Male|
+|```age``` | Age Group 1 to 13 (1: 18-24,..., 9: 60-64,..., 13: +80)|
+|```education``` | Scale 1-6 (1: Never attended school or only kindergarten,..., 6: College)|
+|```income``` | Scale 1-8 (1: less than $10,000,..., 5: less than $35,000,..., 8: +$75,000)|
 
 ---
 
