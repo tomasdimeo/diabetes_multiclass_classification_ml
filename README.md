@@ -70,8 +70,8 @@ The repository is organized as follows to ensure clarity and reproducibility:
 │   └── diabetes_012_ml.ipynb  # Model training and evaluation
 │
 ├── models/
-│   ├── random_forest_model.pkl         # Saved trained model
-│   └── xgboost_model.pkl               # Another saved model
+│   ├── cat_boost_model_borderline.cbm  # Saved trained model
+│   └── cat_boost_model_adasyn.cbm      # Another saved model
 │
 ├── requirements.txt                    # Python dependencies
 └── README.md                           # This file
@@ -393,6 +393,12 @@ To replicate this project, follow these steps:
 *   **XGBoost, LightGBM, CatBoost**: For the gradient boosting models.
 *   **Tqdm**: For creating fast, extensible progress bars for loops and iterables
 *   **Jupyter Notebook**: For interactive code development.
+
+Different AI models have been used in the project to build text structures in order to make it easier for users to understand the concepts. The prediction models have been built by the author using different learned techniques as inspiration, which are detailed in the Jupyter Notebook. If you have any questions please do not hesitate to contact me.
+
+---
+
+Special recognition for the [Machine Learning Zoomcamp Course](https://github.com/DataTalksClub/machine-learning-zoomcamp/tree/master) from **DataTalksClub** who inspired me to carry out this machine learning project and many more to come. I recommend checking out the course if you are interested in learning more about data science.
 
 ---
 
