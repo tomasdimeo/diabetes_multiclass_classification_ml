@@ -131,15 +131,19 @@ Since accuracy is not a reliable metric for imbalanced problems, a more comprehe
 
 The models were evaluated on the test set (which was not seen during training or resampling). Below is a summary table of the results obtained (use your own values):
 
-| Model           | F1-Score (Weighted) | F1-Score (Macro) | ROC AUC (OvR) |
-|-----------------|---------------------|------------------|---------------|
-| Decision Tree   | 0.78                | 0.65             | 0.81          |
-| Random Forest   | 0.84                | 0.75             | 0.89          |
-| XGBoost         | **0.86**            | **0.78**         | **0.91**      |
-| LightGBM        | 0.85                | 0.77             | 0.90          |
-| CatBoost        | 0.85                | 0.77             | 0.91          |
+| Model           | F1-Score (Weighted) | F1-Score (Macro) | Weighted AUC-PR |
+|-----------------|---------------------|------------------|-----------------|
+| Decision Tree   | 0.81                | 0.39             | 0.86            |
+| Random Forest   | 0.80                | 0.37             | 0.87            |
+| Random Forest (Weight-Adj)  | 0.75    | 0.42             | 0.87            |
+| Random Forest (SMOTE-Tomek)| 0.79     | 0.44             | 0.86            |
+| XGBoost         | 0.81                | 0.40             | 0.87            |
+| LightGBM        | 0.81                | 0.44             | 0.86            |
+| CatBoost (SMOTE-Tomek)| **0.82**      | **0.45**         | **0.86**        |
+| CatBoost (Borderline-SMOTE)| 0.82     | 0.44             | 0.86            |
+| CatBoost (ADASYN)| 0.82               | 0.44             | 0.86            |
 
-**Conclusion**: The **XGBoost** model demonstrated the best overall performance, achieving the highest F1-Score and ROC AUC. This suggests that its ability to handle data complexity and its inherent regularization were key to generalizing well on the unseen test data.
+**Conclusion**: The **CatBoost (SMOTE-Tomek)** model demonstrated the best overall performance, achieving the highest F1-Score (Weighted and Macro) and Weighted AUC-PR Curve. Although the accuracy of the model in predicting the majority class is above 90%, it fails to predict class 1 (2% of the dataset) and although resampling and feature importance techniques help to improve the prediction of class 2 (14% of the dataset), it is still far from what could be considered useful.
 
 ---
 
