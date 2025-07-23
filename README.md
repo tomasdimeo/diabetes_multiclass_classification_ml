@@ -63,8 +63,6 @@ It is important to clarify that although the main objectives are those previousl
 The repository is organized as follows to ensure clarity and reproducibility:
 
 ```
-├── diabetes_012_health_indicators_BRFSS2015.csv  # Main dataset
-│
 ├── images/ # README.md images
 │   
 ├── notebook/
@@ -75,8 +73,9 @@ The repository is organized as follows to ensure clarity and reproducibility:
 │   ├── cat_boost_model_borderline.cbm  # Saved trained model
 │   └── cat_boost_model_adasyn.cbm      # Another saved model
 │
-├── requirements.txt                    # Python dependencies
-└── README.md                           # This file
+├── README.md                           # This file
+├── diabetes_012_health_indicators_BRFSS2015.csv  # Main dataset
+└── requirements.txt                    # Python dependencies
 ```
 
 ## Methodology
