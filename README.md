@@ -342,13 +342,13 @@ The models were evaluated on the test set (which was not seen during training or
 | Random Forest   | 0.80                | 0.37             | 0.87            |
 | Random Forest (Weight-Adj)  | 0.75    | 0.42             | 0.87            |
 | Random Forest (SMOTE-Tomek)| 0.79     | 0.44             | 0.86            |
-| XGBoost         | 0.81                | 0.40             | 0.87            |
+| XGBoost         | 0.81                | 0.40             | 0.86            |
 | LightGBM        | 0.81                | 0.44             | 0.86            |
-| CatBoost (SMOTE-Tomek)| **0.82**      | **0.45**         | **0.86**        |
-| CatBoost (Borderline-SMOTE)| 0.82     | 0.44             | 0.86            |
-| CatBoost (ADASYN)| 0.82               | 0.44             | 0.86            |
+| CatBoost (SMOTE-Tomek)| 0.82          | 0.44             | 0.86            |
+| CatBoost (Borderline-SMOTE)| **0.82** | **0.44**         | **0.86**        |
+| CatBoost (ADASYN)| **0.82**           | **0.44**         | **0.86**        |
 
-**Conclusion**: The **CatBoost** model with SMOTE-Tomek resampling demonstrated the best overall performance, achieving the highest F1-Score (Weighted and Macro) and Weighted AUC-PR Curve. Although the accuracy of the model in predicting the majority class is above 90%, it fails to predict class 1 (2% of the dataset) and although resampling and feature importance techniques help to improve the prediction of class 2 (14% of the dataset), it is still far from what could be considered useful.
+**Conclusion**: The **CatBoost** models with Borderline-SMOTE and ADASYN resampling demonstrated the best overall performance, achieving the highest F1-Score (Weighted and Macro) and Weighted AUC-PR Curve. Although the accuracy of the models are predicting the majority class is above 90%, they fails to predict class 1 (2% of the dataset) and although resampling and feature importance techniques help to improve the prediction of class 2 (14% of the dataset), they are still far from what could be considered useful.
 
 The imbalance of class 1 (pre-diabetes) is too large (42x less data), which is why even implementing different resampling techniques does not make a substantial difference. By applying weights to models, they begin to predict the minority class at the cost of greatly diminishing the effectiveness of predicting the majority class.
 
