@@ -149,8 +149,8 @@ To replicate this project, follow these steps:
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/[your-username]/[your-repository].git
-    cd [your-repository]
+    git clone https://github.com/tomasdimeo/diabetes_multiclass_classification_ml.git
+    cd diabetes_multiclass_classification_ml
     ```
 
 2.  **Create a virtual environment (recommended):**
@@ -166,8 +166,8 @@ To replicate this project, follow these steps:
 
 4.  **Run the notebooks:**
     Open Jupyter Lab or Jupyter Notebook and run the notebooks in the suggested numerical order:
-    *   `notebooks/01_EDA_and_Preprocessing.ipynb`
-    *   `notebooks/02_Modeling_and_Evaluation.ipynb`
+    *   `notebooks/EDA.ipynb`
+    *   `notebooks/diabetes_012_ml.ipynb`
 
 ---
 
@@ -179,12 +179,13 @@ To replicate this project, follow these steps:
 *   **Scikit-learn**: For preprocessing, modeling, and evaluation.
 *   **Imbalanced-learn**: For resampling techniques like SMOTE.
 *   **XGBoost, LightGBM, CatBoost**: For the gradient boosting models.
+*   **Tqdm**: For creating fast, extensible progress bars for loops and iterables
 *   **Jupyter Notebook**: For interactive code development.
 
 ---
 
 ## Author
 
-*   **[Your Name]**
-*   **LinkedIn**: `https://www.linkedin.com/in/[your-username]`
-*   **GitHub**: `https://github.com/[your-username]`
+*   **Tomás Di Meo**
+*   **LinkedIn**: `https://www.linkedin.com/in/tom%C3%A1s-di-meo-b2689a139/`
+*   **GitHub**: `https://github.com/tomasdimeo`
