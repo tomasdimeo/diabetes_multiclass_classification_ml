@@ -290,7 +290,7 @@ In our dataset we face a significant challenge of class imbalance, where the cla
 
 Resampling techniques are designed to mitigate this by balancing the class distribution in the training data. We will be exploring a progression from the foundational SMOTE to more sophisticated adaptive methods.
 
-**It is important to note that these resampling techniques should only be applied to the training dataset and not to the validation and test datasets, as this would adulterate the entire dataset and the results we would obtain would be incorrect and biased.**
+**It is important to note that these resampling techniques should only be applied to the training dataframe and not to the validation and test dataframes, as this would adulterate the entire dataset and the results we would obtain would be incorrect and biased.**
 
 I highlight this because I have seen numerous works and resolutions on this dataset where they apply resampling before splitting the dataset, and therefore, creating ‘very good’ models that end up being useless in reality.
 
